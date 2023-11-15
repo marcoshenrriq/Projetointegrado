@@ -1,0 +1,81 @@
+
+conn = sqlite3.connect('locacao_brinquedos.db')
+
+
+cursor = conn.cursor()
+
+
+Criar tabela Cliente
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Cliente (
+        ID_Cliente INTEGER PRIMARY KEY AUTOINCREMENT,
+        CPF TEXT NOT NULL,
+        Nome TEXT NOT NULL,
+        Endereco TEXT,
+        Telefone TEXT,
+        Email TEXT,
+        DataNascimento DATE
+    )
+''')
+
+Criar tabela Funcionario
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Funcionario (
+        ID_Funcionario INTEGER PRIMARY KEY AUTOINCREMENT,
+        CPF TEXT NOT NULL,
+        Nome TEXT NOT NULL,
+        Endereco TEXT,
+        Telefone TEXT,
+        Email TEXT,
+        Login TEXT,
+        Senha TEXT
+    )
+''')
+
+Criar tabela Servicos
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Servicos (
+        ID_Servico INTEGER PRIMARY KEY AUTOINCREMENT,
+        Monitor BOOLEAN,
+        FreteLocacao BOOLEAN,
+        Montador BOOLEAN
+    )
+''')
+
+Criar tabela Brinquedos
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Brinquedos (
+        ID_Brinquedo INTEGER PRIMARY KEY AUTOINCREMENT,
+        COD_Brinquedo TEXT NOT NULL,
+        Tipo_Brinquedo TEXT,
+        Num_Defeitos INTEGER,
+        Capacidade_Peso INTEGER,
+        Faixa_Etaria TEXT,
+        Valor_Equipamento REAL
+    )
+''')
+
+Criar tabela Locacao
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Locacao (
+        ID_Locacao INTEGER PRIMARY KEY AUTOINCREMENT,
+        FK_ID_Pedido INTEGER,
+        Nome_Cliente TEXT,
+        Data_Locacao DATE,
+        Data_Devolucao DATE,
+        Brinquedos_Locados TEXT,
+        Num_Criancas INTEGER,
+        Valor_Locacao REAL,
+        Nome_Funcionario TEXT,
+        FOREIGN KEY (FK_ID_Pedido) REFERENCES Servicos(ID_Servico)
+    )
+''')
+
+
+conn.commit()
+conn.close()
